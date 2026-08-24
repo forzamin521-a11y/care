@@ -65,17 +65,13 @@ export function ChangePasswordForm({ forced }: { forced: boolean }) {
           className="h-12 text-base"
           aria-describedby="password-rules"
         />
-        <ul
+        <p
           id="password-rules"
-          className="mt-1 flex flex-col gap-1 text-xs text-muted-foreground"
+          className="mt-1 flex items-center gap-1.5 text-xs text-muted-foreground"
         >
-          {PASSWORD_RULES.map((rule) => (
-            <li key={rule} className="flex items-center gap-1.5">
-              <Check className="size-3.5 shrink-0 text-primary" aria-hidden />
-              {rule}
-            </li>
-          ))}
-        </ul>
+          <Check className="size-3.5 shrink-0 text-primary" aria-hidden />
+          {PASSWORD_RULES[0]}
+        </p>
       </div>
 
       <div className="flex flex-col gap-2">

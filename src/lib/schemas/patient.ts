@@ -32,7 +32,12 @@ export const patientFormSchema = z
       .optional()
       .transform((v) => (v ? v : null)),
 
-    sex: z.enum(["M", "F"]).optional().nullable(),
+    // 성별을 고르지 않으면 빈 문자열이 넘어온다 — null 로 받아준다
+    sex: z
+      .union([z.enum(["M", "F"]), z.literal("")])
+      .optional()
+      .nullable()
+      .transform((v) => (v ? v : null)),
     birth_date: z
       .string()
       .trim()

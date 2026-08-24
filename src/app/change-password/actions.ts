@@ -2,7 +2,7 @@
 
 import { redirect } from "next/navigation";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
-import { checkPassword } from "@/lib/password";
+import { checkPassword, SUPABASE_MIN_LENGTH } from "@/lib/password";
 import { logAudit } from "@/lib/audit";
 
 export type ChangePasswordState = {
@@ -35,11 +35,8 @@ export async function changePasswordAction(
     redirect("/login");
   }
 
-  // 정책 검사
-  const check = checkPassword(newPassword, {
-    currentPassword,
-    email: user.email,
-  });
+  // 형식 검사 (길이·문자종류 제한은 두지 않는다)
+  const check = checkPassword(newPassword);
 
   if (!check.ok) {
     return { errors: check.errors };
@@ -74,13 +71,13 @@ export async function changePasswordAction(
   });
 
   if (updateError) {
-    return {
-      errors: [
-        updateError.message.includes("should be different")
-          ? "현재 비밀번호와 다른 값으로 정하세요."
-          : `변경에 실패했습니다: ${updateError.message}`,
-      ],
-    };
+    const m = updateError.message;
+    const friendly = m.includes("should be different")
+      ? "현재 비밀번호와 다른 값으로 정하세요."
+      : /at least|too short|minimum/i.test(m)
+        ? `비밀번호가 너무 짧습니다. ${SUPABASE_MIN_LENGTH}자 이상으로 정하세요.`
+        : `변경에 실패했습니다: ${m}`;
+    return { errors: [friendly] };
   }
 
   await supabase

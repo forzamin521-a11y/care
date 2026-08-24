@@ -31,6 +31,7 @@ import {
 } from "@/components/ui/card";
 import { TrendCharts } from "@/components/chart/trend-charts";
 import { DeletePatientButton } from "../delete-patient";
+import { DeleteDraftButton } from "@/app/(app)/assessments/delete-draft";
 
 export const metadata: Metadata = { title: "환자 정보" };
 
@@ -41,6 +42,7 @@ type Assessment = {
   status: string;
   assessed_at: string;
   assessor_name: string | null;
+  data: unknown;
 };
 
 function kindLabel(kind: string) {
@@ -57,6 +59,8 @@ export default async function PatientDetailPage(
   props: PageProps<"/patients/[id]">
 ) {
   const { id } = await props.params;
+  const search = await props.searchParams;
+  const assessmentDeleted = search.assessment_deleted === "1";
   const supabase = await createSupabaseServerClient();
 
   const { data: patient } = await supabase
@@ -72,7 +76,7 @@ export default async function PatientDetailPage(
 
   const { data: assessmentRows } = await supabase
     .from("assessments")
-    .select("id, seq, kind, status, assessed_at, assessor_name")
+    .select("id, seq, kind, status, assessed_at, assessor_name, data")
     .eq("patient_id", id)
     .is("deleted_at", null)
     .order("seq", { ascending: false });
@@ -103,6 +107,12 @@ export default async function PatientDetailPage(
 
   return (
     <div className="flex flex-col gap-6">
+      {assessmentDeleted ? (
+        <div className="rounded-lg bg-muted px-4 py-3 text-sm">
+          작성 중이던 평가를 삭제했습니다.
+        </div>
+      ) : null}
+
       {/* ---------- 머리말 ---------- */}
       <div className="flex flex-col gap-2">
         <Link
@@ -319,11 +329,23 @@ export default async function PatientDetailPage(
                       >
                         {assessment.status === "completed" ? "완료" : "작성 중"}
                       </Badge>
-                      {assessment.assessor_name ? (
-                        <span className="ml-auto text-sm text-muted-foreground">
-                          {assessment.assessor_name}
-                        </span>
-                      ) : null}
+                      <span className="ml-auto flex items-center gap-2">
+                        {assessment.assessor_name ? (
+                          <span className="text-sm text-muted-foreground">
+                            {assessment.assessor_name}
+                          </span>
+                        ) : null}
+                        {assessment.status === "draft" ? (
+                          <DeleteDraftButton
+                            assessmentId={assessment.id}
+                            seq={assessment.seq}
+                            hasContent={
+                              !!assessment.data &&
+                              Object.keys(assessment.data as object).length > 0
+                            }
+                          />
+                        ) : null}
+                      </span>
                     </li>
                   ))}
                 </ol>

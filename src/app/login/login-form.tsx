@@ -46,7 +46,6 @@ export function LoginForm({ next }: { next: string }) {
           autoComplete="username"
           required
           autoFocus
-          defaultValue="admin@caredoc.local"
           className="h-12 text-base"
         />
       </div>

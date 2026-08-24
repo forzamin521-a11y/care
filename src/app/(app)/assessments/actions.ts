@@ -314,6 +314,59 @@ export async function completeAssessmentAction(formData: FormData) {
   redirect(`/assessments/${assessmentId}`);
 }
 
+/**
+ * 작성 중(draft) 평가 삭제.
+ *
+ * 잘못 눌러 만든 빈 평가를 치우기 위한 기능이다.
+ * 완료된 평가는 진료기록이므로 여기서 지우지 않는다 —
+ * 고칠 내용이 있으면 수정해서 새 버전으로 남긴다.
+ * 삭제도 실제로 지우지 않고 deleted_at 만 채운다.
+ */
+export async function deleteDraftAssessmentAction(formData: FormData) {
+  const assessmentId = String(formData.get("assessmentId") ?? "");
+  if (!assessmentId) redirect("/patients");
+
+  const current = await getCurrentProfile();
+  if (!current) redirect("/login");
+
+  const supabase = await createSupabaseServerClient();
+
+  const { data: assessment } = await supabase
+    .from("assessments")
+    .select("id, patient_id, seq, status")
+    .eq("id", assessmentId)
+    .is("deleted_at", null)
+    .maybeSingle();
+
+  if (!assessment) redirect("/patients");
+
+  if (assessment.status !== "draft") {
+    throw new Error(
+      "완료된 평가는 삭제할 수 없습니다. 내용을 고치려면 수정을 눌러 새 버전으로 남기세요."
+    );
+  }
+
+  const { error } = await supabase
+    .from("assessments")
+    .update({ deleted_at: new Date().toISOString() })
+    .eq("id", assessmentId)
+    .eq("status", "draft");
+
+  if (error) {
+    throw new Error(`삭제하지 못했습니다: ${error.message}`);
+  }
+
+  await logAudit({
+    action: "delete",
+    targetTable: "assessments",
+    targetId: assessmentId,
+    detail: { seq: assessment.seq, status: "draft" },
+  });
+
+  revalidatePath(`/patients/${assessment.patient_id}`);
+  redirect(`/patients/${assessment.patient_id}?assessment_deleted=1`);
+}
+
 /** 완료된 평가를 다시 수정 가능한 상태로 되돌린다 */
 export async function reopenAssessmentAction(formData: FormData) {
   const assessmentId = String(formData.get("assessmentId") ?? "");

@@ -12,6 +12,9 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // 설치한 에이전트 스킬(데모 영상 템플릿 등)은 앱 코드가 아니므로 검사하지 않는다
+    ".claude/**",
+    "video/**",
   ]),
 ]);
 

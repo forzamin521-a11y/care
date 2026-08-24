@@ -37,6 +37,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Field } from "@/components/field";
 import { SectionCard } from "./parts";
+import { DeleteDraftButton } from "@/app/(app)/assessments/delete-draft";
 import {
   SectionA,
   SectionB,
@@ -584,9 +585,19 @@ function CompleteBar({
             완료된 평가를 수정하면 새 버전으로 기록됩니다.
           </span>
         ) : (
-          <span className="text-sm text-muted-foreground">
-            완료해도 나중에 다시 수정할 수 있습니다.
-          </span>
+          <>
+            <span className="text-sm text-muted-foreground">
+              완료해도 나중에 다시 수정할 수 있습니다.
+            </span>
+            <span className="ml-auto flex items-center gap-2 text-sm text-muted-foreground">
+              잘못 만든 평가라면
+              <DeleteDraftButton
+                assessmentId={assessment.id}
+                seq={assessment.seq}
+                hasContent
+              />
+            </span>
+          </>
         )}
       </div>
     </form>
