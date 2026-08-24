@@ -1,0 +1,319 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+
+  --font-sans: var(--font-sans);
+  --font-mono: var(--font-mono);
+  --font-heading: var(--font-sans);
+
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  /* 상태 색상 — 신호등 (정상 / 주의 / 위험) */
+  --color-ok: var(--ok);
+  --color-ok-foreground: var(--ok-foreground);
+  --color-ok-soft: var(--ok-soft);
+  --color-warn: var(--warn);
+  --color-warn-foreground: var(--warn-foreground);
+  --color-warn-soft: var(--warn-soft);
+  --color-danger: var(--danger);
+  --color-danger-foreground: var(--danger-foreground);
+  --color-danger-soft: var(--danger-soft);
+
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+}
+
+/* ---------------------------------------------------------------
+   요양병원 테마 — 세이지 그린/틸 계열
+   Primary #2E7D6F 을 기준으로, 중성색에 미세한 초록 편향을 둠
+   --------------------------------------------------------------- */
+:root {
+  --radius: 0.5rem;
+
+  --font-sans:
+    "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont,
+    "Malgun Gothic", "맑은 고딕", system-ui, sans-serif;
+  --font-mono:
+    ui-monospace, SFMono-Regular, "Cascadia Mono", Consolas, monospace;
+
+  --background: oklch(0.988 0.004 165);
+  --foreground: oklch(0.205 0.018 175);
+
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.205 0.018 175);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.205 0.018 175);
+
+  --primary: oklch(0.49 0.072 168);
+  --primary-foreground: oklch(0.99 0.004 165);
+
+  --secondary: oklch(0.964 0.006 165);
+  --secondary-foreground: oklch(0.30 0.03 172);
+
+  --muted: oklch(0.962 0.006 165);
+  --muted-foreground: oklch(0.505 0.016 174);
+
+  --accent: oklch(0.944 0.018 168);
+  --accent-foreground: oklch(0.395 0.06 168);
+
+  --destructive: oklch(0.552 0.208 26);
+  --destructive-foreground: oklch(0.99 0.004 165);
+
+  --border: oklch(0.903 0.008 168);
+  --input: oklch(0.903 0.008 168);
+  --ring: oklch(0.49 0.072 168);
+
+  /* 신호등 */
+  --ok: oklch(0.582 0.155 146);
+  --ok-foreground: oklch(0.99 0.004 165);
+  --ok-soft: oklch(0.945 0.04 148);
+  --warn: oklch(0.632 0.148 62);
+  --warn-foreground: oklch(0.20 0.03 60);
+  --warn-soft: oklch(0.955 0.045 78);
+  --danger: oklch(0.552 0.208 26);
+  --danger-foreground: oklch(0.99 0.004 165);
+  --danger-soft: oklch(0.952 0.032 22);
+
+  /* 차트 — 1번은 primary, 나머지는 색상 구분이 되는 계열 */
+  --chart-1: oklch(0.49 0.072 168);
+  --chart-2: oklch(0.55 0.115 240);
+  --chart-3: oklch(0.66 0.135 62);
+  --chart-4: oklch(0.52 0.13 300);
+  --chart-5: oklch(0.58 0.16 12);
+
+  --sidebar: oklch(0.972 0.007 165);
+  --sidebar-foreground: oklch(0.205 0.018 175);
+  --sidebar-primary: oklch(0.49 0.072 168);
+  --sidebar-primary-foreground: oklch(0.99 0.004 165);
+  --sidebar-accent: oklch(0.928 0.018 168);
+  --sidebar-accent-foreground: oklch(0.345 0.05 170);
+  --sidebar-border: oklch(0.898 0.009 168);
+  --sidebar-ring: oklch(0.49 0.072 168);
+}
+
+.dark {
+  --background: oklch(0.188 0.012 175);
+  --foreground: oklch(0.952 0.008 165);
+
+  --card: oklch(0.235 0.014 175);
+  --card-foreground: oklch(0.952 0.008 165);
+  --popover: oklch(0.235 0.014 175);
+  --popover-foreground: oklch(0.952 0.008 165);
+
+  --primary: oklch(0.735 0.088 168);
+  --primary-foreground: oklch(0.192 0.02 175);
+
+  --secondary: oklch(0.282 0.014 175);
+  --secondary-foreground: oklch(0.952 0.008 165);
+
+  --muted: oklch(0.282 0.014 175);
+  --muted-foreground: oklch(0.712 0.013 168);
+
+  --accent: oklch(0.312 0.026 170);
+  --accent-foreground: oklch(0.902 0.022 168);
+
+  --destructive: oklch(0.702 0.172 22);
+  --destructive-foreground: oklch(0.192 0.02 175);
+
+  --border: oklch(1 0 0 / 12%);
+  --input: oklch(1 0 0 / 16%);
+  --ring: oklch(0.62 0.075 168);
+
+  --ok: oklch(0.712 0.138 148);
+  --ok-foreground: oklch(0.185 0.02 160);
+  --ok-soft: oklch(0.30 0.05 150);
+  --warn: oklch(0.785 0.128 66);
+  --warn-foreground: oklch(0.192 0.02 60);
+  --warn-soft: oklch(0.315 0.05 70);
+  --danger: oklch(0.702 0.172 25);
+  --danger-foreground: oklch(0.192 0.02 20);
+  --danger-soft: oklch(0.315 0.06 22);
+
+  --chart-1: oklch(0.735 0.088 168);
+  --chart-2: oklch(0.68 0.12 240);
+  --chart-3: oklch(0.78 0.13 66);
+  --chart-4: oklch(0.68 0.13 300);
+  --chart-5: oklch(0.70 0.15 12);
+
+  --sidebar: oklch(0.222 0.014 175);
+  --sidebar-foreground: oklch(0.952 0.008 165);
+  --sidebar-primary: oklch(0.735 0.088 168);
+  --sidebar-primary-foreground: oklch(0.192 0.02 175);
+  --sidebar-accent: oklch(0.312 0.026 170);
+  --sidebar-accent-foreground: oklch(0.902 0.022 168);
+  --sidebar-border: oklch(1 0 0 / 12%);
+  --sidebar-ring: oklch(0.62 0.075 168);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  html {
+    @apply font-sans;
+    /* 고령·중년 사용자 배려: 본문 16px 기준 */
+    font-size: 16px;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    line-height: 1.6;
+  }
+
+  /* 숫자가 열로 정렬되는 곳(점수·혈압·검사값)은 고정폭 숫자 */
+  table,
+  .tabular {
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* 터치 타겟 최소 44px — 태블릿 입력 대비 */
+  @media (pointer: coarse) {
+    button:not(.tap-sm),
+    [role="radio"],
+    [role="checkbox"],
+    a[role="button"] {
+      min-height: 44px;
+    }
+  }
+}
+
+/* ---------------------------------------------------------------
+   A4 인쇄 — 포괄평가기록부 / 빈 설문지 / 회차 비교표
+   PDF 라이브러리 없이 브라우저 기본 인쇄를 사용하므로
+   한글 폰트가 깨지지 않는다.
+   --------------------------------------------------------------- */
+@page {
+  size: A4;
+  margin: 12mm;
+}
+
+@media print {
+  :root {
+    /* 잉크 절약 + 판독성: 인쇄는 항상 흑백 기준 */
+    --background: #ffffff;
+    --foreground: #000000;
+    --card: #ffffff;
+    --card-foreground: #000000;
+    --muted: #ffffff;
+    --muted-foreground: #333333;
+    --border: #000000;
+    --input: #000000;
+    --primary: #000000;
+    --primary-foreground: #ffffff;
+  }
+
+  html {
+    font-size: 10.5pt;
+  }
+
+  body {
+    background: #fff !important;
+    color: #000 !important;
+    line-height: 1.35;
+  }
+
+  /* 화면 전용 UI는 인쇄에서 제외 */
+  .no-print,
+  [data-app-nav],
+  [data-sonner-toaster] {
+    display: none !important;
+  }
+
+  /*
+   * 개발 모드 오버레이(Next.js 개발 표시기 등)는 position: fixed 라
+   * 인쇄할 때 브라우저가 매 장에 다시 그린다. 환자 서류에 찍히면 안 되므로
+   * 인쇄에서는 반드시 숨긴다.
+   */
+  nextjs-portal,
+  next-route-announcer,
+  [data-nextjs-toast],
+  [data-next-badge-root],
+  [data-nextjs-dev-tools-button] {
+    display: none !important;
+  }
+
+  /* 인쇄 전용 요소 */
+  .print-only {
+    display: revert !important;
+  }
+
+  /* 페이지 나눔 제어 */
+  .page-break {
+    break-after: page;
+    page-break-after: always;
+  }
+
+  .avoid-break,
+  table,
+  tr,
+  .print-section {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  /* 원본 양식과 같은 표 형태 */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  th,
+  td {
+    border: 0.4pt solid #000;
+    padding: 2.5pt 4pt;
+    vertical-align: top;
+  }
+
+  a {
+    color: #000 !important;
+    text-decoration: none !important;
+  }
+}
+
+.print-only {
+  display: none;
+}
