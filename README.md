@@ -100,13 +100,28 @@ npm run dev
 
 ---
 
-## Vercel 배포
+## 배포 정보
 
-1. 이 폴더를 GitHub 저장소로 올립니다.
-2. https://vercel.com → **Add New** → **Project** → 해당 저장소 선택
-3. **Environment Variables** 에 `.env.local` 의 값들을 그대로 넣습니다.
-   (`SUPABASE_SERVICE_ROLE_KEY` 포함 — 서버에서만 쓰이므로 브라우저로 나가지 않습니다)
-4. Deploy
+- 운영 주소: **https://care-doc.vercel.app**
+- Vercel 프로젝트: `care-doc` (서울 리전 `icn1`, `vercel.json` 에 지정)
+- Supabase 리전: Seoul (`ap-northeast-2`)
+- 요금제: Hobby(무료) — 실제 병원 업무에 정식 사용 시 약관상 Pro 전환 필요
+
+### 다시 배포하기
+
+```bash
+vercel --prod
+```
+
+환경변수는 Vercel 프로젝트에 이미 등록돼 있습니다. 값을 바꿔야 하면:
+
+```bash
+vercel env rm  NEXT_PUBLIC_SUPABASE_URL production
+vercel env add NEXT_PUBLIC_SUPABASE_URL production
+```
+
+> `.env.local` 은 저장소에 올라가지 않으므로, Vercel 쪽 환경변수와 로컬 값을
+> 따로 관리해야 합니다. 현재 등록된 변수는 `vercel env ls` 로 확인합니다.
 
 ---
 
